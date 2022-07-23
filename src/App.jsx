@@ -29,7 +29,15 @@ export class App extends Component {
         <h2>Contacts</h2>
 
         <p>Find contacts by name</p> 
-
+        {/* <input type="text"
+          placeholder="Search contact"
+          onChange={e => {
+            const search = e.target.value; 
+            const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(search.toLowerCase()));
+            this.setState({ contacts: filteredContacts });
+          }
+        }            
+            /> */}
         <ul>
           {contacts.map(contact => (
             <li key={contact.id}>
