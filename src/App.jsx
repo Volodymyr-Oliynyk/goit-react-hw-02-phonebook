@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import Form from 'components/Form';
+import {Form} from 'components/Form';
+
 
 export class App extends Component {
   state = {
@@ -24,11 +25,11 @@ export class App extends Component {
     return (
       <div>
         <h1>Phonebook</h1>
-        <Form onFormSubmit={this.formSubmitHandler} />
+        <Form onFormSubmit={this.formSubmitHandler}/>
         <h2>Contacts</h2>
 
         <p>Find contacts by name</p> 
-        
+
         <ul>
           {contacts.map(contact => (
             <li key={contact.id}>
