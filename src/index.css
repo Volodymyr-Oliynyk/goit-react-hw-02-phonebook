@@ -13,3 +13,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container{
+display: flex;
+}
+input {
+ 
+  border-radius: 4px;
+  background-color: #fafafa;
+  color: #333;
+  font-size: 1.2em;
+  padding: 0.5em;
+  margin: 0.5em;
+  width: 120px;
+  height: auto;
+}
+  input:focus {
+    border: 2px solid #1678e7;
+  }
