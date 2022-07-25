@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
+import { Formik, Form, Field } from 'formik';
 
-export class Form extends Component {
+export class FormContact extends Component {
   state = {
     name: '',
     number: '',
@@ -14,28 +17,42 @@ export class Form extends Component {
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.onFormSubmit(this.state);
-    console.log(this.state);
-    this.reset();
+  handleSubmit = (values, action) => {
+    const { name, number } = values;
+    const { addContact } = this.props;
+
+    addContact({
+      id: nanoid(),
+      name,
+      number,
+    });
+
+    action.resetForm();
   };
 
-  reset = () => {
-    this.setState({
-      name: '',
-      number: '',
-    });
-  };
+  
+//   //   this.props.onFormSubmit(this.state);
+//   //   console.log(this.state);
+
+//   //   this.reset();
+//   // };
+
+//   // reset = () => {
+//   //   this.setState({
+//   //     name: '',
+//   //     number: '',
+//   //   });
+//   // };
 
   render() {
     const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
+      <Formik initialValues={this.state} onSubmit={this.handleSubmit}>
+        <Form>
+        <label htmlFor='name'>
           Name
-          <input
+          <Field
             className="container"
             type="text"
             name="name"
@@ -46,9 +63,9 @@ export class Form extends Component {
             required
           />
         </label>
-        <label>
+        <label htmlFor='number'>
           Number
-          <input
+          <Field
             className="container"
             type="tel"
             name="number"
@@ -60,9 +77,8 @@ export class Form extends Component {
           />
         </label>
         <button type="submit">Add contact</button>
-      </form>
-    );
+      </Form>
+      </Formik>
+      );
   }
 }
-
-
