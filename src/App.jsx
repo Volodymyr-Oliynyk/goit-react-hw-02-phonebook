@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { FormContact } from './components/FormContact';
+import ContactForm from 'components/ContactForm';
+import Filter from 'components/Filter';
+import ContactList from 'components/ContactList';
 
 export class App extends Component {
   state = {
@@ -13,53 +15,53 @@ export class App extends Component {
     filter: '',
   };
 
-  // formSubmitHandler = data => {
-  //   const newContact = {
-  //     name: data.name,
-  //     number: data.number,
-  //     id: nanoid(),
-  //   };
-  //   this.setState(state => ({
-  //     contacts: [...state.contacts, newContact],
-  //   }));
-  // };
+  
+  
+  addContact = (name, number) => {
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
 
-  contactFilterHandler = e => {
-    const search = e.target.value;
-    const filteredContacts = this.contacts.filter(contact =>
-      contact.name.toLowerCase().includes(search.toLowerCase())
-    );
-    this.setState({ contacts: filteredContacts });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+    }));
   };
 
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  changeFilter = e => {
+    this.setState({
+      filter: e.target.value,
+    });
+  };
+
+ 
+
   render() {
-    const { contacts } = this.state;
-    const contactFilterList = this.contactFilterHandler;
+    const { contacts, filter } = this.state;
+    // const contactFilterList = this.contactFilterList;
+    const changeFilter = this.changeFilter;
+    // const nomalizeFilter = filter.toLowerCase();
+    const visibleContacts = this.state.contacts.filter(contact => {
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase());
+    });
+   
     return (
       <div>
         <h1>Phonebook</h1>
-        <FormContact onFormSubmit={this.formSubmitHandler} />
+        <ContactForm onSubmit={this.addContact} />
+
         <h2>Contacts</h2>
-
-        <p>Find contacts by name</p>
-        <input
-          type="text"
-          placeholder="Search contact"
-          onChange={contactFilterList}
-        />
-
-        <ul>
-          {/* {contactFilterList === '' ? (contacts.map(contact => (
-            <li key={contact.id}>
-              {contact.name}:{contact.number} </li>))) : (contactFilterList)
-          } */}
-          {contacts.map(contact => (
-            <li key={contact.id}>
-              {contact.name}: {contact.number}
-              <button type="button">Delete</button>
-            </li>
-          ))}
-        </ul>
+        <Filter value={filter} onChange={changeFilter} />
+        
+        <ContactList contacts={contacts} onDeleteContact = {this.deleteContact}/>
+        
       </div>
     );
   }
