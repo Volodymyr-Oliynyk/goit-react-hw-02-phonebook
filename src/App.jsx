@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid';
 import ContactForm from 'components/ContactForm';
 import Filter from 'components/Filter';
 import ContactList from 'components/ContactList';
+import { Container } from 'components/common/Container';
+import { Title } from 'components/common/CommonStyled';
+
 
 export class App extends Component {
   state = {
@@ -15,18 +18,17 @@ export class App extends Component {
     filter: '',
   };
 
-  
-  
   addContact = (name, number) => {
     const newContact = {
       id: nanoid(),
       name,
       number,
     };
-
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-    }));
+    this.setState(({ contacts }) =>
+      contacts.find(contact => contact.name === newContact.name)
+        ? alert(`${newContact.name} is already in contacts`)
+        : { contacts: [...contacts, newContact] }
+    );
   };
 
   deleteContact = contactId => {
@@ -41,28 +43,32 @@ export class App extends Component {
     });
   };
 
- 
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedContacts = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedContacts)
+    );
+  };
 
   render() {
-    const { contacts, filter } = this.state;
-    // const contactFilterList = this.contactFilterList;
+    const { filter } = this.state;
     const changeFilter = this.changeFilter;
-    // const nomalizeFilter = filter.toLowerCase();
-    const visibleContacts = this.state.contacts.filter(contact => {
-      contact.name.toLowerCase().includes(this.state.filter.toLowerCase());
-    });
-   
+    const visibleContacts = this.getFilteredContacts();
+
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
 
-        <h2>Contacts</h2>
+        <Title>Contacts</Title>
         <Filter value={filter} onChange={changeFilter} />
-        
-        <ContactList contacts={contacts} onDeleteContact = {this.deleteContact}/>
-        
-      </div>
+
+        <ContactList
+          contacts={visibleContacts}
+          onDeleteContact={this.deleteContact}
+        />
+   </Container>
     );
   }
 }
