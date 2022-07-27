@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { Form, Field } from 'formik';
 
 export const ContactFormStyled = styled(Form)`
@@ -28,12 +28,12 @@ export const ContactField = styled(Field)`
   font-family: inherit;
   border: none;
   outline: none;
-  border-radius: .5rem;
-  box-shadow: inset .2rem .2rem .5rem #FFFFFF;
-  background: #6178EA;
+  border-radius: 0.5rem;
+  box-shadow: inset 0.2rem 0.2rem 0.5rem #ffffff;
+  background: #6178ea;
   color: #0000ff;
-  :focus { 
-      outline: none; 
-      box-shadow: .3rem .3rem .6rem #0000ff,  -.2rem -.2rem .5rem #c2c2c2; 
+  :focus {
+    outline: none;
+    box-shadow: 0.3rem 0.3rem 0.6rem #0000ff, -0.2rem -0.2rem 0.5rem #c2c2c2;
   }
 `;

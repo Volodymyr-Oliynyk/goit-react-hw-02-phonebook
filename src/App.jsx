@@ -6,7 +6,6 @@ import ContactList from 'components/ContactList';
 import { Container } from 'components/common/Container';
 import { Title } from 'components/common/CommonStyled';
 
-
 export class App extends Component {
   state = {
     contacts: [
@@ -68,7 +67,8 @@ export class App extends Component {
           contacts={visibleContacts}
           onDeleteContact={this.deleteContact}
         />
-   </Container>
+      </Container>
     );
   }
 }
+
